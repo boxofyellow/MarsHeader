@@ -1,6 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#if (USESYSTEM)
 using System.Data.SqlClient;
+#else
+using Microsoft.Data.SqlClient;
+#endif
+
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -18,6 +23,18 @@ namespace MarsHeader
         {
             string connectionString = args?.FirstOrDefault() ?? "Server=localhost;Database=master;Integrated Security=true";
             Console.WriteLine(NumberOfTasks);
+
+#if (USESYSTEM)
+            Console.WriteLine("UseSystem IS set");
+#else
+            Console.WriteLine("UseSystem is NOT set");
+#endif
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                Console.WriteLine(connection.GetType().FullName);
+            }
+
             s_watch = Stopwatch.StartNew();
             s_random = new Random(4); // chosen via fair dice role.
             try
