@@ -1,4 +1,12 @@
-﻿#if (USESYSTEM)
+﻿//
+// It looks like this problem is in both packages
+// This build time vairable can be set via the msbuild property UseSystem
+// To Run with the Sql Client from the system namespace:    dotnet build /p:UseSystem=true; dotnet run --no-build
+// To run with the Sql Client from the Microsoft namespace: dotnet run
+//
+// Luckily the two share an identical public interface for parts that we are accessing 👍 Sql Client team
+//
+#if (USESYSTEM)
 using System.Data.SqlClient;
 #else
 using Microsoft.Data.SqlClient;
